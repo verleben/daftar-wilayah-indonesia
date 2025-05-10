@@ -1,0 +1,84 @@
+<div id="main">
+    <div><select id="provinsi"><option>Pilih Provinsi</option></select></div>
+    <div><select id="kota"><option>Pilih Kota</option></select></div>
+    <div><select id="kecamatan"><option>Pilih Kecamatan</option></select></div>
+    <div><select id="kelurahan"><option>Pilih Kelurahan</option></select></div>
+</div>
+
+<script>
+function APIWilayah () {
+    const baseUrl = 'https://raw.githubusercontent.com/verleben/daftar-wilayah-indonesia/main/dist';
+    function resetDropdown(id) {
+        const labels = {
+            provinsi: 'Pilih Provinsi',
+            kode: 'Pilih Kota',
+            kecamatan: 'Pilih Kecamatan',
+            kelurahan: 'Pilih Kelurahan',
+        }
+        document.getElementById(id).innerHTML = `<option value="">${labels[id]||id}</option>`;
+    }
+    
+    function fillSelect(selectId, data, label = 'Pilih') {
+      const select = document.getElementById(selectId);
+      select.innerHTML = `<option value="">${label} ${selectId.charAt(0).toUpperCase() + selectId.slice(1)}</option>`;
+      data.forEach((cols) => {
+        const code = cols[0]
+        const name = cols[cols.length-1]
+        const option = document.createElement('option');
+        option.value = code;
+        option.textContent = name;
+        select.appendChild(option);
+      });
+    }
+    
+    async function fetchCSV(url) {
+      const res = await fetch(url);
+      if (res.status === 200) {
+          const text = await res.text();
+          return text.trim().split('\n').map(line => line.split(','));
+      } else {
+          return [];
+      }
+    }
+    
+    async function loadProvinsi() {
+      const data = await fetchCSV(`${baseUrl}/provinsi.csv`);
+      fillSelect('provinsi', data, 'Pilih');
+    }
+    
+    async function handleChangeProvinsi () {
+        const code = this.value;
+        resetDropdown('kota')
+        resetDropdown('kecamatan')
+        resetDropdown('kelurahan')
+        const data = !code ? [] : await fetchCSV(`${baseUrl}/kota/${code}.csv`);
+        fillSelect('kota', data, 'Pilih');
+    }
+
+    async function handleChangeKota () {
+        const code = this.value;
+        resetDropdown('kecamatan')
+        resetDropdown('kelurahan')
+        const data = !code ? [] : await fetchCSV(`${baseUrl}/kecamatan/${code}.csv`);
+        fillSelect('kecamatan', data, 'Pilih');
+    }
+
+    async function handleChangeKecamatan () {
+        const code = this.value;
+      resetDropdown('kelurahan')
+      const data = !code ? [] : await fetchCSV(`${baseUrl}/kelurahan/${code}.csv`);
+      fillSelect('kelurahan', data, 'Pilih');
+    }
+
+    function init () {
+        document.getElementById('provinsi').addEventListener('change', handleChangeProvinsi);
+        document.getElementById('kota').addEventListener('change', handleChangeKota);
+        document.getElementById('kecamatan').addEventListener('change', handleChangeKecamatan);
+
+        loadProvinsi();
+    }
+    return { init };
+}
+const apiWilayah = new APIWilayah();
+apiWilayah.init();
+</script>
