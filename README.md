@@ -27,5 +27,10 @@ dist/
 ## 🗑 Opsional
 rm regencies.csv districts.csv villages.csv
 
+## ✨ Bonus: List Negara
+- Negara ([countries.csv](https://raw.githubusercontent.com/dr5hn/countries-states-cities-database/refs/heads/master/csv/countries.csv));
+
 ## 🔗 Sumber data
-Data diambil dari repositori GitHub: **🔗 https://github.com/edwardsamuel/Wilayah-Administratif-Indonesia**
+Data diambil dari repositori GitHub:
+- **🔗 https://github.com/edwardsamuel/Wilayah-Administratif-Indonesia**
+- **🔗 https://github.com/dr5hn/countries-states-cities-database**

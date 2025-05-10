@@ -1,5 +1,7 @@
 #!/bin/bash
 
+wget -O dist/negara.csv 'https://raw.githubusercontent.com/dr5hn/countries-states-cities-database/refs/heads/master/csv/countries.csv'
+
 wget -O dist/provinsi.csv 'https://raw.githubusercontent.com/edwardsamuel/Wilayah-Administratif-Indonesia/refs/heads/master/csv/provinces.csv'
 wget -O regencies.csv 'https://raw.githubusercontent.com/edwardsamuel/Wilayah-Administratif-Indonesia/refs/heads/master/csv/regencies.csv'
 wget -O districts.csv 'https://raw.githubusercontent.com/edwardsamuel/Wilayah-Administratif-Indonesia/refs/heads/master/csv/districts.csv'
